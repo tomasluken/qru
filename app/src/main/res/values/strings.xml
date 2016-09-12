@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">HelloWorld3</string>
+    <string name="edit_message">Tik een tekst</string>
+    <string name="button_send">Klik op de knop</string>
 </resources>
