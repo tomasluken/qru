@@ -3,4 +3,5 @@
     <string name="edit_message">Tik een tekst</string>
     <string name="button_send">Klik op de knop</string>
     <string name="button_scan">Scan</string>
+    <string name="scan_label">1. Scan de QR-code</string>
 </resources>
