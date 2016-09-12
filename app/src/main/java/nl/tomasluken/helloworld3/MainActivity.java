@@ -35,11 +35,17 @@ public class MainActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
         TextView lblResult = (TextView) findViewById(R.id.scan_result);
+        TextView lblResultDecrypted = (TextView) findViewById(R.id.scan_decrypted);
         if (scanResult != null) {
-            lblResult.setText(scanResult.getContents());
+            String result = scanResult.getContents();
+            TextEncryptor encryptor = new TextEncryptor();
+            String resultDecrypted = encryptor.Decrypt(result);
+            lblResult.setText(result);
+            lblResultDecrypted.setText(resultDecrypted);
         }
         else {
             lblResult.setText("scanresult was null...");
+            lblResultDecrypted.setText("no value to decrypt...");
         }
     }
 }

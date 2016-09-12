@@ -23,5 +23,16 @@
         android:layout_height="wrap_content"
         android:text="..."
         android:textAlignment="center"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/label_decrypted"
+        android:textAlignment="center"/>
+    <TextView
+        android:id="@+id/scan_decrypted"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="..."
+        android:textAlignment="center"/>
 </LinearLayout>
 

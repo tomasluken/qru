@@ -10,8 +10,8 @@ import static org.junit.Assert.*;
 public class TestPojos {
     @Test
     public void testYourNameIs() throws Exception {
-        MyAppCore core = new MyAppCore();
-        String result = core.YourNameIs("Tomas");
-        assertEquals("Hi, Tomas", result);
+        TextEncryptor encryptor = new TextEncryptor();
+        String result = encryptor.Decrypt("Tomas");
+        assertEquals("samoT", result);
     }
 }
