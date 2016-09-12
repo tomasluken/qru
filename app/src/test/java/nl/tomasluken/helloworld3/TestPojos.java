@@ -9,11 +9,9 @@ import static org.junit.Assert.*;
  */
 public class TestPojos {
     @Test
-    public void testTestsCanBeRun() throws Exception {
-        assertEquals(4, 2 + 2);
-    }
-    @Test
-    public void testTestsCanFail() throws Exception {
-        assertEquals(4, 2 + 1);
+    public void testYourNameIs() throws Exception {
+        MyAppCore core = new MyAppCore();
+        String result = core.YourNameIs("Tomas");
+        assertEquals("Hi, Tomas", result);
     }
 }
