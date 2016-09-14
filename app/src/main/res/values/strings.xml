@@ -1,8 +1,5 @@
 <resources>
-    <string name="app_name">Trix</string>
-    <!--<string name="edit_message">Tik een tekst</string>
-    <string name="button_send">Klik op de knop</string>-->
-    <string name="button_scan">Scan starten</string>
-    <string name="scan_label">Gebruik onderstaande knop om een QR-code in te scannen</string>
-    <string name="label_decrypted">Ontsleutelde waarde:</string>
+    <string name="app_name">QRU</string>
+    <string name="button_scan">Scan Encrypted Message</string>
+    <string name="key_scan">Scan Decryption Key</string>
 </resources>
