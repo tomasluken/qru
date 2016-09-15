@@ -2,4 +2,6 @@
     <string name="app_name">QRU</string>
     <string name="button_scan">Scan Encrypted Message</string>
     <string name="key_scan">Scan Decryption Key</string>
+    <string name="action_favorite">Exit</string>
+    <string name="action_settings">Options</string>
 </resources>
