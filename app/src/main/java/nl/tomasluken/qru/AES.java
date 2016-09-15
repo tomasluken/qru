@@ -62,20 +62,31 @@ public class AES {
 
     private static byte[] encryptText(String plainText,SecretKey secKey) throws Exception{
         // AES defaults to AES/ECB/PKCS5Padding in Java 7
-        Cipher aesCipher = Cipher.getInstance("AES");
-        aesCipher.init(Cipher.ENCRYPT_MODE, secKey);
+        Cipher aesCipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+        aesCipher.init(Cipher.ENCRYPT_MODE, secKey, generateIV());
         byte[] byteCipherText = aesCipher.doFinal(plainText.getBytes());
         return byteCipherText;
     }
 
     private static String decryptText(byte[] byteCipherText, SecretKey secKey) throws Exception {
         // AES defaults to AES/ECB/PKCS5Padding in Java 7
-        Cipher aesCipher = Cipher.getInstance("AES");
-        aesCipher.init(Cipher.DECRYPT_MODE, secKey);
+        Cipher aesCipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+        aesCipher.init(Cipher.DECRYPT_MODE, secKey, generateIV());
         byte[] bytePlainText = aesCipher.doFinal(byteCipherText);
+        System.out.println("Decrypted (HEX):"+bytesToHex(bytePlainText));
         return new String(bytePlainText);
     }
+    private static IvParameterSpec generateIV() {
+        IvParameterSpec IV;
+        SecureRandom r = new SecureRandom();
+        byte[] newSeed = r.generateSeed(16);
+        r.setSeed(newSeed);
 
+        byte[] byteIV = new byte[16];
+        r.nextBytes(byteIV);
+        IV = new IvParameterSpec(byteIV);
+        return IV;
+    }
     final protected static char[] hexArray = "0123456789ABCDEF".toCharArray();
     private static String bytesToHex(byte[] bytes) {
         char[] hexChars = new char[bytes.length * 2];

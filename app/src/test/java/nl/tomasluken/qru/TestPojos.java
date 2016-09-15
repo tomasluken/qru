@@ -23,4 +23,7 @@ public class TestPojos {
         AES aes = new AES();
         assertEquals("Testbericht", aes.Decrypt("1AD1E71D59A182C6AA91E0FFD5D04172", "0123456789123456"));
     }
+
+    //54657374626572696368740505050505
+    //b23a3d13aae9f58cf809c95d1b11fecc
 }
