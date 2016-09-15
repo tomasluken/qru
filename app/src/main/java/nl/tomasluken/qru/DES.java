@@ -2,40 +2,50 @@ package nl.tomasluken.qru;
 
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
 
 /**
  * Created by Luken on 15-9-2016.
  */
 public class DES {
-    Cipher ecipher;
-    Cipher dcipher;
-    DES(SecretKey key) throws Exception {
-        ecipher = Cipher.getInstance("DES/ECB/PKCS5Padding");
-        dcipher = Cipher.getInstance("DES/ECB/PKCS5Padding");
-        ecipher.init(Cipher.ENCRYPT_MODE, key);
-        dcipher.init(Cipher.DECRYPT_MODE, key);
-    }
-    public String encrypt(String str) throws Exception {
+    //Cipher ecipher;
+    //Cipher cipher;
+    //DES(SecretKey key) throws Exception {
+        //ecipher = Cipher.getInstance("DES/ECB/NoPadding");
+        //dcipher = Cipher.getInstance("DES/ECB/NoPadding");
+        //ecipher.init(Cipher.ENCRYPT_MODE, key);
+        //dcipher.init(Cipher.DECRYPT_MODE, key);
+    //}
+    public String encrypt(String str, String sKey) throws Exception {
+        Cipher cipher = Cipher.getInstance("DES/ECB/NoPadding");
+        byte[] key = (sKey).getBytes("UTF-8");
+        SecretKeySpec secretKeySpec = new SecretKeySpec(key, "DES");
+        cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec);
         // Encode the string into bytes using utf-8
         byte[] utf8 = str.getBytes("UTF8");
 
         // Encrypt
-        byte[] enc = ecipher.doFinal(utf8);
+        byte[] enc = cipher.doFinal(utf8);
 
         // Encode bytes to HEX to get a string
         return toHex(enc);
     }
 
-    public String decrypt(String str) throws Exception {
-        // Decode base64 to get bytes
+    public String decrypt(String str, String sKey) throws Exception {
+
+        Cipher cipher = Cipher.getInstance("DES/ECB/NoPadding");
+        byte[] key = (sKey).getBytes("UTF-8");
+        SecretKeySpec secretKeySpec = new SecretKeySpec(key, "DES");
+        cipher.init(Cipher.DECRYPT_MODE, secretKeySpec);
+
         byte[] dec = hexStringToByteArray(str);
 
-        byte[] utf8 = dcipher.doFinal(dec);
+        byte[] utf8 = cipher.doFinal(dec);
 
         // Decode using utf-8
         return new String(utf8, "UTF8");
     }
-    public static String toHex(byte[] bytes)
+    private static String toHex(byte[] bytes)
     {
         char[] hexArray = "0123456789ABCDEF".toCharArray();
         char[] hexChars = new char[bytes.length * 2];

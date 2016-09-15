@@ -36,7 +36,7 @@ public class TestAES2 {
         byte[] cipherText = cipher.doFinal(plainText);
         System.out.println( "Finish encryption: " );
         System.out.println( new String(cipherText, "UTF8") );
-        System.out.println(DES.toHex(cipherText));
+        //System.out.println(DES.toHex(cipherText));
 
         //
         // decrypt the ciphertext using the same key

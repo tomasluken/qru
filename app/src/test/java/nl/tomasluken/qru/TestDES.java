@@ -2,9 +2,7 @@ package nl.tomasluken.qru;
 
 import org.junit.Test;
 
-import javax.crypto.KeyGenerator;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
+import static org.junit.Assert.*;
 
 /**
  * Created by Luken on 15-9-2016.
@@ -14,12 +12,22 @@ public class TestDES {
     public void testDES() throws Exception {
         //SecretKey key = KeyGenerator.getInstance("DES").generateKey();
         //System.out.println(key);
-        byte[] key = ("01234567").getBytes("UTF-8");
-        SecretKeySpec secretKeySpec = new SecretKeySpec(key, "DES");
-        DES encrypter = new DES(secretKeySpec);
-        String encrypted = encrypter.encrypt("Testbericht");
-        System.out.println(encrypted);
-        String decrypted = encrypter.decrypt(encrypted);
-        System.out.println(decrypted);
+
+        DES encrypter = new DES();
+        String encryptedAsHex = encrypter.encrypt("DitIsEen", "01234567");
+        System.out.println(encryptedAsHex);
+        assertEquals("E6D12A258CB75E54", encryptedAsHex);
+
+        String decryptedAsHex = encrypter.decrypt("E6D12A258CB75E54", "01234567");
+        System.out.println(decryptedAsHex);
+        assertEquals("DitIsEen", decryptedAsHex);
+
+        encryptedAsHex = encrypter.encrypt("bioscoop", "canadees");
+        System.out.println(encryptedAsHex);
+        assertEquals("DCCD38F9137EE79B", encryptedAsHex);
+
+        decryptedAsHex = encrypter.decrypt("DCCD38F9137EE79B", "canadees");
+        System.out.println(decryptedAsHex);
+        assertEquals("bioscoop", decryptedAsHex);
     }
 }
