@@ -15,27 +15,42 @@ import javax.crypto.spec.SecretKeySpec;
  * Created by Luken on 14-9-2016.
  */
 public class AES {
-    public void DoIt(String theMessage, String theKey) throws Exception
+    public void EncryptAndDecrypt(String theMessage, String theKey) throws Exception
     {
         String plainText = theMessage;
-        SecretKey secKey = getSecretEncryptionKey(theKey);
-        byte[] cipherText = encryptText(plainText, secKey);
-        String decryptedText = decryptText(cipherText, secKey);
-
         System.out.println("Original Text:" + plainText);
+
+        SecretKey secKey = getSecretEncryptionKey(theKey);
         System.out.println("AES Key (Hex Form):"+bytesToHex(secKey.getEncoded()));
+
+        byte[] cipherText = encryptText(plainText, secKey);
         System.out.println("Encrypted Text (Hex Form):"+bytesToHex(cipherText));
+
+        secKey = getSecretEncryptionKey(theKey);
+        String decryptedText = decryptText(cipherText, secKey);
         System.out.println("Descrypted Text:"+decryptedText);
     }
 
     public String Encrypt(String theMessage, String theKey) throws Exception
     {
         SecretKey secKey = getSecretEncryptionKey(theKey);
+        System.out.println("AES Key (Hex Form):"+bytesToHex(secKey.getEncoded()));
         byte[] cipherText = encryptText(theMessage, secKey);
+        System.out.println("Encrypted Text (Hex Form):"+bytesToHex(cipherText));
         return bytesToHex(cipherText);
     }
 
-    public static SecretKey getSecretEncryptionKey(String theKey) throws Exception{
+    public String Decrypt(String theMessage, String theKey) throws Exception
+    {
+        SecretKey secKey = getSecretEncryptionKey(theKey);
+        System.out.println("AES Key (Hex Form):"+bytesToHex(secKey.getEncoded()));
+        System.out.println("Encrypted Text (Hex Form):"+theMessage);
+        byte[] encryptedText = hexStringToByteArray(theMessage);
+        String decryptedText = decryptText(encryptedText, secKey);
+        return decryptedText;
+    }
+
+    private static SecretKey getSecretEncryptionKey(String theKey) throws Exception{
         //SecretKeyFactory factory = SecretKeyFactory.getInstance("AES");
         byte[] key = (theKey).getBytes("UTF-8");
         SecretKeySpec secretKeySpec = new SecretKeySpec(key, "AES");
@@ -45,7 +60,7 @@ public class AES {
         return secretKeySpec;
     }
 
-    public static byte[] encryptText(String plainText,SecretKey secKey) throws Exception{
+    private static byte[] encryptText(String plainText,SecretKey secKey) throws Exception{
         // AES defaults to AES/ECB/PKCS5Padding in Java 7
         Cipher aesCipher = Cipher.getInstance("AES");
         aesCipher.init(Cipher.ENCRYPT_MODE, secKey);
@@ -53,7 +68,7 @@ public class AES {
         return byteCipherText;
     }
 
-    public static String decryptText(byte[] byteCipherText, SecretKey secKey) throws Exception {
+    private static String decryptText(byte[] byteCipherText, SecretKey secKey) throws Exception {
         // AES defaults to AES/ECB/PKCS5Padding in Java 7
         Cipher aesCipher = Cipher.getInstance("AES");
         aesCipher.init(Cipher.DECRYPT_MODE, secKey);
@@ -62,7 +77,7 @@ public class AES {
     }
 
     final protected static char[] hexArray = "0123456789ABCDEF".toCharArray();
-    public static String bytesToHex(byte[] bytes) {
+    private static String bytesToHex(byte[] bytes) {
         char[] hexChars = new char[bytes.length * 2];
         for ( int j = 0; j < bytes.length; j++ ) {
             int v = bytes[j] & 0xFF;
@@ -71,7 +86,7 @@ public class AES {
         }
         return new String(hexChars);
     }
-    public static byte[] hexStringToByteArray(String s) {
+    private static byte[] hexStringToByteArray(String s) {
         int len = s.length();
         byte[] data = new byte[len / 2];
         for (int i = 0; i < len; i += 2) {
