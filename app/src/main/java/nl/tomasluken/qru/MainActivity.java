@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private boolean scanMessage = true;
+    private String theMessage;
 
     public void startScan(View view) {
         scanMessage = true;
@@ -34,24 +35,33 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
         TextView lblResult = (TextView) findViewById(R.id.scan_result);
-        //TextView lblResultDecrypted = (TextView) findViewById(R.id.scan_decrypted);
-        if (scanResult != null) {
-            String scannedValue = scanResult.getContents();
-            if (scanMessage)
-                lblResult.setText("MESSAGE:" + scannedValue);
-            else
-                lblResult.setText("KEY:" + scannedValue);
-
-            //TextEncryptor encryptor = new TextEncryptor();
-            //String resultDecrypted = encryptor.Decrypt(result);
-            //lblResult.setText(result);
-            //lblResultDecrypted.setText(resultDecrypted);
+        try {
+            IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
+            //TextView lblResultDecrypted = (TextView) findViewById(R.id.scan_decrypted);
+            if (scanResult != null) {
+                String scannedValue = scanResult.getContents();
+                if (scanMessage) {
+                    theMessage = scannedValue;
+                    lblResult.setText(theMessage);
+                } else {
+                    String theKey = scannedValue;
+                    DES des = new DES();
+                    String decryptedValue = des.decrypt(theMessage, theKey);
+                    lblResult.setText(decryptedValue);
+                }
+                //TextEncryptor encryptor = new TextEncryptor();
+                //String resultDecrypted = encryptor.Decrypt(result);
+                //lblResult.setText(result);
+                //lblResultDecrypted.setText(resultDecrypted);
+            } else {
+                lblResult.setText("scanresult was null...");
+                //lblResultDecrypted.setText("no value to decrypt...");
+            }
         }
-        else {
-            lblResult.setText("scanresult was null...");
-            //lblResultDecrypted.setText("no value to decrypt...");
+        catch (Exception ex)
+        {
+            lblResult.setText(ex.getMessage());
         }
     }
 }
